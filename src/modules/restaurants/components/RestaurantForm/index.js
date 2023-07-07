@@ -49,7 +49,7 @@ const ImagePlaceholderSection = () => {
   );
 };
 
-const RestaurantForm = ({ handleAdd, handleUpdate, objectToEdit }) => {
+const RestaurantForm = ({ onCreate, onUpdate, objectToEdit }) => {
   const restaurantFormInitialState = {
     name: objectToEdit?.name,
     latitude: objectToEdit?.latitude,
@@ -99,12 +99,11 @@ const RestaurantForm = ({ handleAdd, handleUpdate, objectToEdit }) => {
   };
 
   const onSubmitUpdate = () => {
-    handleUpdate(objectToEdit.id, formState);
+    onUpdate(objectToEdit.id, formState);
   };
 
   const onSubmitAdd = () => {
-    console.log('submit add', formState);
-    handleAdd(formState);
+    onCreate(formState);
   };
 
   return (
