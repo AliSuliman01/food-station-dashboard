@@ -18,7 +18,6 @@ const SignUp = ({ setAuthUser }) => {
       localStorage.setItem("access_token", response.data.access_token);
       localStorage.setItem("refresh_token", response.data.refresh_token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      setAuthUser(response.data.user);
       window.location.reload();
     });
   };
@@ -34,14 +33,14 @@ const SignUp = ({ setAuthUser }) => {
             <InputForm
               type="email"
               label="Email"
-              setValue={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="my-4">
             <InputForm
               type="password"
               label="Password"
-              setValue={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="my-4">
