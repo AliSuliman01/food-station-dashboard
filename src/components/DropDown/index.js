@@ -1,17 +1,15 @@
-import { Fragment } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { ListItem, Menu, MenuHandler, MenuList, Typography } from "@material-tailwind/react";
-import { Transition } from "@headlessui/react";
 
-export default function ({
+export default ({
   title,
   children,
   withArrow = true,
   width,
   height,
   titleClassName = "",
-}) {
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

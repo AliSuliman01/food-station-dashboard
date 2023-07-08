@@ -243,7 +243,6 @@ export default () => {
     md:max-w-screen-md 
     lg:max-w-screen-lg
     xl:max-w-screen-xl
-    2xl:max-w-screen-2xl
     
      px-4 py-2 
       mt-20 mb-5"

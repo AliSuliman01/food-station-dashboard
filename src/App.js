@@ -1,7 +1,7 @@
 import "./App.css";
 import { createContext, useState } from "react";
 import { injectStyle } from "react-toastify/dist/inject-style";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import {
   ApolloClient,
   ApolloProvider,
@@ -18,7 +18,7 @@ if (typeof window !== "undefined") {
 }
 
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_BACKEND_GQL_API,
+  uri: "http://44.210.89.155/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -63,7 +63,7 @@ function App() {
     },
   ];
 
-  const [auth_user, setAuthUser] = useState(user);
+  const [auth_user, ] = useState(user);
 
   return (
     <>
@@ -79,7 +79,6 @@ function App() {
              md:max-w-screen-md 
              lg:max-w-screen-lg
              xl:max-w-screen-xl
-             2xl:max-w-screen-2xl
              mx-auto my-5 
              text-gray-500 ">
               <Outlet />
