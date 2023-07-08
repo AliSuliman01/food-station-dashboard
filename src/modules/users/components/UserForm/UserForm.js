@@ -11,8 +11,9 @@ import { BanknotesIcon } from "@heroicons/react/24/solid";
 import { useReducer } from "react";
 import { userFormReducer } from "./UserFormReducer";
 import actions from "./actions";
+import { toImagePath } from "../../../../helpers/functions";
 
-const UserForm = ({ handleAdd, handleUpdate, objectToEdit }) => {
+const UserForm = ({ onCreate, onUpdate, objectToEdit }) => {
   const userFormInitialState = {
     name: objectToEdit?.name,
     email: objectToEdit?.email,
@@ -44,11 +45,11 @@ const UserForm = ({ handleAdd, handleUpdate, objectToEdit }) => {
   };
 
   const onSubmitUpdate = () => {
-    handleUpdate(objectToEdit.id, formState);
+    onUpdate(objectToEdit.id, formState);
   };
 
   const onSubmitAdd = () => {
-    handleAdd(formState);
+    onCreate(formState);
   };
 
   return (
@@ -63,7 +64,7 @@ const UserForm = ({ handleAdd, handleUpdate, objectToEdit }) => {
       >
         {formState.photo_path ? (
           <>
-            <img src={formState.photo_path} className="object-cover relative" />
+            <img src={toImagePath(formState.photo_path)} className="object-cover relative" />
             <div className="w-full flex justify-center">
               <Button
                 className="bg-main relative overflow-hidden my-3"

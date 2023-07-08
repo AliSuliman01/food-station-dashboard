@@ -120,7 +120,7 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
       translations: formState.translations,
       restaurant_id: formState?.restaurant.id,
       images: [
-        formState.main_image,
+        ...[formState.main_image].filter(({path}) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
       deletedImages: formState.deletedImages,
@@ -137,7 +137,7 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
       translations: formState.translations,
       restaurant_id: formState?.restaurant.id,
       images: [
-        formState.main_image,
+        ...[formState.main_image].filter(({path}) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
       ingredients: formState.ingredients.map((ingredient) =>

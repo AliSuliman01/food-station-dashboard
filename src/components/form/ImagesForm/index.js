@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { refreshContexmenuePreventing } from "../../../helpers/functions";
+import { refreshContexmenuePreventing, toImagePath } from "../../../helpers/functions";
 
 export default ({ images, onContextMenu, onSelectImage }) => {
 
@@ -18,7 +18,7 @@ export default ({ images, onContextMenu, onSelectImage }) => {
               className="w-16 h-16 mr-3 mb-3 flex justify-center items-center cursor-pointer rounded-md"
               onContextMenu={() => onContextMenu(image) }
             >
-              <img src={image.path} className="object-cover relative" />
+              <img src={toImagePath(image.path)} className="object-cover relative" />
             </div>
           );
         })}

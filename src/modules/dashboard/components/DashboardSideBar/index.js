@@ -6,6 +6,7 @@ import {
   ListItemPrefix,
   ListItemSuffix,
   Chip,
+  IconButton,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
@@ -15,55 +16,78 @@ import {
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
+import { FaBars } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-export default () => {
+export default ({ openSidebar, setOpenSidbar }) => {
   return (
-    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <List>
+    <Card
+      className={
+        (openSidebar ? " max-w-[20rem] " : " max-w-[6rem] min-w-[6rem] ") +
+        "h-[600px] w-full  p-4 shadow-xl shadow-blue-gray-900/5"
+      }
+    >
+      <div className="mb-2 p-4 flex justify-between items-center">
+        {openSidebar && (
+          <Typography variant="h5" color="blue-gray">
+            Sidebar
+          </Typography>
+        )}
+        <IconButton variant="text" onClick={() => setOpenSidbar(!openSidebar)}>
+          <FaBars size={20} color="FC4F00" />
+        </IconButton>
+      </div>
+      <List className=" !min-w-[0px]">
         <ListItem>
           <ListItemPrefix>
             <PresentationChartBarIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Dashboard
+          {openSidebar && "Dashboard"}
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <ShoppingBagIcon className="h-5 w-5" />
           </ListItemPrefix>
-          E-Commerce
+          {openSidebar && "E-Commerce"}
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <InboxIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip
-              value="14"
-              size="sm"
-              variant="ghost"
-              color="blue-gray"
-              className="rounded-full"
-            />
-          </ListItemSuffix>
+          {openSidebar && (
+            <>
+              Inbox
+              <ListItemSuffix>
+                <Chip
+                  value="14"
+                  size="sm"
+                  variant="ghost"
+                  color="blue-gray"
+                  className="rounded-full"
+                />
+              </ListItemSuffix>
+            </>
+          )}
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <UserCircleIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Profile
+          {openSidebar && "Profile"}
         </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem>
+        <Link to={"./settings"}>
+          <ListItem>
+            <ListItemPrefix>
+              <Cog6ToothIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            {openSidebar && "Settings"}
+          </ListItem>
+        </Link>
         <ListItem>
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>
-          Log Out
+          {openSidebar && "Log Out"}
         </ListItem>
       </List>
     </Card>

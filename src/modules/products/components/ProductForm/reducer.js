@@ -14,12 +14,14 @@ export default (state, action) => {
       };
     case actions.CLEAR_PHOTO:{
       const deletedImages = [...state.deletedImages];
+
       if (state.main_image?.id) {
         deletedImages.push(state.main_image.id);
       }
       return {
         ...state,
         main_image: {},
+        deletedImages:deletedImages
       };}
     case actions.UPLOAD_PHOTO:{
       const image_path = URL.createObjectURL(action.photo);

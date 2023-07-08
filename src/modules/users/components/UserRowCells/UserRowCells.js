@@ -1,4 +1,5 @@
 import { Avatar, Typography } from "@material-tailwind/react";
+import { toImagePath } from "../../../../helpers/functions";
 
 const UserRowCells = ({
   tableRow,
@@ -10,7 +11,7 @@ const UserRowCells = ({
     <>
       <td className={classes}>
         <div className="flex items-center gap-3">
-          <Avatar src={photo_path} alt={name} size="sm" />
+          <Avatar src={toImagePath(photo_path)} alt={name} size="sm" />
           <div className="flex flex-col">
             <Typography
               variant="small"

@@ -77,7 +77,7 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
     onUpdate(objectToEdit.id, {
       translations: formState.translations,
       images: [
-        formState.main_image,
+        ...[formState.main_image].filter(({path}) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
       deletedImages: formState.deletedImages,
@@ -89,7 +89,7 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
     onCreate({
       translations: formState.translations,
       images: [
-        formState.main_image,
+        ...[formState.main_image].filter(({path}) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
     });

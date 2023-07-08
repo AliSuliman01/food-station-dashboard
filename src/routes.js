@@ -14,6 +14,7 @@ import Users from "./modules/users/pages/Users";
 import ErrorPage from "./pages/ErrorPage";
 import Ingredients from "./modules/ingredients/pages/Ingredients";
 import Categories from "./modules/categories/pages/Categories";
+import DashboardSettings from "./modules/dashboard/pages/DashboardSettings";
 
 const ProtectedRoute = ({ children }) => {
   const user = localStorage.getItem("user");
@@ -48,6 +49,12 @@ const routes = [
             <Dashboard />
           </ProtectedRoute>
         ),
+        children: [
+          {
+            path: "settings",
+            element: <DashboardSettings />,
+          }
+        ]
       },
       {
         path: "users",

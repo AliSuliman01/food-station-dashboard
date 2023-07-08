@@ -1,5 +1,6 @@
 import { Avatar, Chip, Typography } from "@material-tailwind/react";
 import defaultImage from  '../../../../assets/category/default.jpg';
+import { toImagePath } from "../../../../helpers/functions";
 
 export default ({
   tableRow,
@@ -18,7 +19,7 @@ export default ({
     <>
      <td className={classes}>
         <div className="flex items-center gap-3">
-          <Avatar src={image?.path ?? defaultImage} size="sm" />
+          <Avatar src={image?.path ? toImagePath(image.path) : defaultImage} size="sm" />
           <div className="flex flex-col">
             <Typography
               variant="small"

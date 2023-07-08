@@ -20,6 +20,7 @@ export default (state, action) => {
       return {
         ...state,
         main_image: {},
+        deletedImages
       };}
     case actions.UPLOAD_PHOTO:{
       const image_path = URL.createObjectURL(action.photo);

@@ -12,13 +12,16 @@ import NavBar from "./components/NavBar";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 
+
 // CALL IT ONCE IN YOUR APP
 if (typeof window !== "undefined") {
   injectStyle();
 }
 
+const dashboardSettings = JSON.parse(localStorage.getItem('dashboard-settings'));
+
 const httpLink = createHttpLink({
-  uri: "http://44.210.89.155/graphql",
+  uri: dashboardSettings.graphql_base_url ,
 });
 
 const authLink = setContext((_, { headers }) => {
