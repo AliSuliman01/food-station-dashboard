@@ -16,7 +16,7 @@ import useApi from "../../../../hooks/useApi";
 import FilesApi from "../../../../api/files";
 import useQueryWithLoading from "../../../../hooks/useQueryWithLoading";
 
-const tableHeads = ["Product", "Price", "Ingredients", "Created At", ""];
+const tableHeads = ["ID", "Product", "Price", "Ingredients", "Categories", "Created At", ""];
 
 export default () => {
   const productsDatatableInitialState = {
@@ -81,6 +81,9 @@ export default () => {
           ingredients: {
             connect: data.ingredients,
           },
+          categories: {
+            connect: data.categories,
+          },
         };
       })
       .then((inputData) => {
@@ -139,6 +142,9 @@ export default () => {
           },
           ingredients: {
             sync: data.ingredients,
+          },
+          categories: {
+            sync: data.categories,
           },
         };
       })

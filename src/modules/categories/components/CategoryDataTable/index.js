@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Datatable from "../../../../components/Datatable";
 import CategoryRowCells from "../CategoryRowCells";
-import CategoryGQL from "../../../../gql/category"
+import CategoryGQL from "../../../../gql/category";
 import { useMutation } from "@apollo/client";
 import {
   errorToast,
@@ -17,7 +17,7 @@ import FilesApi from "../../../../api/files";
 import useQueryWithLoading from "../../../../hooks/useQueryWithLoading";
 import { createContext } from "react";
 
-const tableHeads = ["Category", "Created At", ""];
+const tableHeads = ["ID", "Category", "Static Name", "Slug", "Created At", ""];
 
 export const categoryContext = createContext();
 
@@ -66,8 +66,8 @@ export default () => {
       })
     )
       .then((inputImages) => {
-
         return {
+          name:data.name,
           translations: {
             upsert: data.translations,
           },
@@ -118,18 +118,18 @@ export default () => {
       })
     )
       .then((inputImages) => {
-
         return {
+          name:data.name,
           translations: {
             upsert: data.translations,
-            delete: data.deletedTranslations
+            delete: data.deletedTranslations,
           },
           parent_category: {
             connect: data.parent_category_id,
           },
           images: {
             create: inputImages,
-            delete: data.deletedImages
+            delete: data.deletedImages,
           },
         };
       })
@@ -181,7 +181,6 @@ export default () => {
   };
   return (
     <categoryContext.Provider value={state.data}>
-
       <Datatable
         heads={tableHeads}
         data={state.data}
@@ -195,7 +194,6 @@ export default () => {
         RowCells={CategoryRowCells}
         FormComponent={CategoryForm}
       />
-          </categoryContext.Provider>
-
+    </categoryContext.Provider>
   );
 };

@@ -2,7 +2,7 @@ const dashboardSettings = JSON.parse(localStorage.getItem('dashboard-settings'))
 
 const toImagePath = (path = "") => {
   
-    return !path?.startsWith('blob') ? (dashboardSettings.backend_base_url + path) : path
+    return !path?.startsWith('blob') ? (dashboardSettings?.backend_base_url + path) : path
 }
 
 const refreshContexmenuePreventing = () => {

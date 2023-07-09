@@ -21,7 +21,7 @@ if (typeof window !== "undefined") {
 const dashboardSettings = JSON.parse(localStorage.getItem('dashboard-settings'));
 
 const httpLink = createHttpLink({
-  uri: dashboardSettings.graphql_base_url ,
+  uri: dashboardSettings?.graphql_base_url ,
 });
 
 const authLink = setContext((_, { headers }) => {

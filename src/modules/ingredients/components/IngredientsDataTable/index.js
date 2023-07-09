@@ -16,7 +16,7 @@ import useApi from "../../../../hooks/useApi";
 import FilesApi from "../../../../api/files";
 import useQueryWithLoading from "../../../../hooks/useQueryWithLoading";
 
-const tableHeads = ["Ingredient", "Created At", ""];
+const tableHeads = ["ID", "Ingredient", "Categories", "Created At", ""];
 
 export default () => {
   const ingredientsDatatableInitialState = {
@@ -28,12 +28,10 @@ export default () => {
     ingredientsDatatableInitialState
   );
 
-  const { data: ingredientsData, refetch: refetchIngredients } = useQueryWithLoading(
-    IngredientsGQL.GET_INGREDIENTS,
-    {
+  const { data: ingredientsData, refetch: refetchIngredients } =
+    useQueryWithLoading(IngredientsGQL.GET_INGREDIENTS, {
       fetchPolicy: "no-cache",
-    }
-  );
+    });
 
   const uploadFileApi = useApi(FilesApi.uploadFile);
 
@@ -63,15 +61,16 @@ export default () => {
       })
     )
       .then((inputImages) => {
-
         return {
           translations: {
             upsert: data.translations,
           },
           images: {
-            create: inputImages
+            create: inputImages,
           },
-          
+          categories: {
+            sync: data.categories,
+          },
         };
       })
       .then((inputData) => {
@@ -85,7 +84,10 @@ export default () => {
               type: actions.ADD_ITEM,
               item: response.data.createIngredient,
             });
-            successToast({ message: "Ingredient Created Successfully", toastId });
+            successToast({
+              message: "Ingredient Created Successfully",
+              toastId,
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -114,16 +116,17 @@ export default () => {
       })
     )
       .then((inputImages) => {
-
         return {
           translations: {
             upsert: data.translations,
           },
           images: {
             create: inputImages,
-            delete: data.deletedImages
+            delete: data.deletedImages,
           },
-          
+          categories: {
+            sync: data.categories,
+          },
         };
       })
       .then((inputData) => {
@@ -139,7 +142,10 @@ export default () => {
               id,
               item: response.data.updateIngredient,
             });
-            successToast({ message: "Ingredient Updated Successfully", toastId });
+            successToast({
+              message: "Ingredient Updated Successfully",
+              toastId,
+            });
           })
           .catch((error) => {
             console.log(error);

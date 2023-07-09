@@ -2,29 +2,23 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Input,
   Button,
-  Option,
   Typography,
-  Chip,
 } from "@material-tailwind/react";
 import { useEffect, useReducer } from "react";
 import productFormReducer from "./reducer";
 import actions from "./actions";
 import RestaurantGQL from "../../../../gql/restaurants";
 import IngredientGQL from "../../../../gql/ingredients";
+import CategoryGQL from "../../../../gql/category";
 import { useQuery } from "@apollo/client";
 import TranslationsForm from "../../../../components/form/TranslationsForm";
-import ImageSection from "../../../../components/ImageSection";
-import ImagePlaceholderSection from "../../../../components/ImagePlaceholderSection";
 import ImagesForm from "../../../../components/form/ImagesForm";
 import UploadAndPreviewImage from "../../../../components/form/UploadAndPreviewImage";
 import InputForm from "../../../../components/form/InputForm";
-import SelectForm from "../../../../components/form/SelectForm";
-
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import ingredients from "../../../../gql/ingredients";
+import MultiSelectForm from "../../../../components/form/MultiSelectForm";
 
 const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
   const productFormInitialState = {
@@ -36,9 +30,11 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
     images: [],
     deletedImages: [],
     ingredients: [],
+    categories: [],
 
     allRestaurants: [],
     allIngredients: [],
+    allCategories: [],
   };
 
   const [formState, formDispatch] = useReducer(
@@ -47,8 +43,10 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
   );
 
   const animatedComponents = makeAnimated();
+
   const { data: restaurantsData } = useQuery(RestaurantGQL.GET_RESTAURANTS);
   const { data: ingredientsData } = useQuery(IngredientGQL.GET_INGREDIENTS);
+  const { data: categoriesData } = useQuery(CategoryGQL.GET_CATEGORIES);
 
   useEffect(() => {
     if (objectToEdit) {
@@ -61,6 +59,10 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
             label: ingredient.translation.name,
             value: ingredient.id,
           })),
+          categories: objectToEdit.categories.map((category) => ({
+            label: category.translation.name,
+            value: category.id,
+          })),
         },
       });
     }
@@ -69,8 +71,9 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
   useEffect(() => {
     if (restaurantsData?.restaurants) {
       formDispatch({
-        type: actions.LOAD_RESTAURANTS,
-        allRestaurants: restaurantsData?.restaurants,
+        type: actions.SET_STATE,
+        key: "allRestaurants",
+        value: restaurantsData?.restaurants,
       });
     }
   }, [restaurantsData]);
@@ -78,11 +81,22 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
   useEffect(() => {
     if (ingredientsData?.ingredients) {
       formDispatch({
-        type: actions.LOAD_INGREDIENTS,
-        allIngredients: ingredientsData?.ingredients,
+        type: actions.SET_STATE,
+        key: "allIngredients",
+        value: ingredientsData?.ingredients,
       });
     }
   }, [ingredientsData]);
+
+  useEffect(() => {
+    if (categoriesData?.categories) {
+      formDispatch({
+        type: actions.SET_STATE,
+        key: "allCategories",
+        value: categoriesData?.categories,
+      });
+    }
+  }, [categoriesData]);
 
   const handleStateChange = (key, value) => {
     formDispatch({
@@ -120,13 +134,16 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
       translations: formState.translations,
       restaurant_id: formState?.restaurant.id,
       images: [
-        ...[formState.main_image].filter(({path}) => path),
+        ...[formState.main_image].filter(({ path }) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
       deletedImages: formState.deletedImages,
       ingredients: formState.ingredients.map((ingredient) =>
         parseInt(ingredient.value)
       ),
+      categories: formState.categories.map((category) =>
+      parseInt(category.value)
+    ),
     });
   };
 
@@ -137,11 +154,14 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
       translations: formState.translations,
       restaurant_id: formState?.restaurant.id,
       images: [
-        ...[formState.main_image].filter(({path}) => path),
+        ...[formState.main_image].filter(({ path }) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
       ingredients: formState.ingredients.map((ingredient) =>
         parseInt(ingredient.value)
+      ),
+      categories: formState.categories.map((category) =>
+        parseInt(category.value)
       ),
     });
   };
@@ -212,31 +232,35 @@ const ProductForm = ({ onCreate, onUpdate, objectToEdit }) => {
               })}
             />
 
-            <div id="ingredients-container">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="mb-4 font-medium"
-              >
-                Ingredients
-              </Typography>
+            <MultiSelectForm
+              label="Ingredients"
+              selectComponents={animatedComponents}
+              selectValue={formState.ingredients}
+              selectOptions={formState.allIngredients.map((ingredient) => {
+                return {
+                  label: ingredient.translation.name,
+                  value: ingredient.id,
+                };
+              })}
+              selectOnChange={(selectedIngredients) => {
+                handleStateChange("ingredients", selectedIngredients);
+              }}
+            />
 
-              <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                value={formState.ingredients}
-                options={formState.allIngredients.map((ingredient) => {
-                  return {
-                    label: ingredient.translation.name,
-                    value: ingredient.id,
-                  };
-                })}
-                onChange={(selectedIngredients) => {
-                  handleStateChange("ingredients", selectedIngredients);
-                }}
-              />
-            </div>
+            <MultiSelectForm
+              label="Categories"
+              selectComponents={animatedComponents}
+              selectValue={formState.categories}
+              selectOptions={formState.allCategories.map((category) => {
+                return {
+                  label: category.translation.name,
+                  value: category.id,
+                };
+              })}
+              selectOnChange={(selectedCategories) => {
+                handleStateChange("categories", selectedCategories);
+              }}
+            />
 
             <Button
               size="lg"

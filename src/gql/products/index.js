@@ -40,6 +40,13 @@ const GET_PRODUCTS = gql`
           name
         }
       }
+      categories {
+        id
+        translation {
+          name
+          language_code
+        }
+      }
     }
   }
 `;
@@ -78,6 +85,13 @@ const STORE_PRODUCT = gql`
         is_main
       }
       ingredients {
+        id
+        translation {
+          name
+          language_code
+        }
+      }
+      categories {
         id
         translation {
           name
@@ -125,6 +139,13 @@ const UPDATE_PRODUCT = gql`
         is_main
       }
       ingredients {
+        id
+        translation {
+          name
+          language_code
+        }
+      }
+      categories {
         id
         translation {
           name

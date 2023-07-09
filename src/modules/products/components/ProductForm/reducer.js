@@ -60,16 +60,7 @@ export default (state, action) => {
           ? [...state.deletedImages, action.photo.id]
           : state.deletedImages,
       };
-    case actions.LOAD_INGREDIENTS:
-      return {
-        ...state,
-        allIngredients: action.allIngredients,
-      };
-    case actions.LOAD_RESTAURANTS:
-      return {
-        ...state,
-        allRestaurants: action.allRestaurants,
-      };
+    
     default:
       return state;
   }

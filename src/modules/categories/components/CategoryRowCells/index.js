@@ -8,6 +8,8 @@ export default ({
 }) => {
   const {
     id,
+    name,
+    slug,
     translation,
     main_image:image,
     parent_category,
@@ -17,6 +19,11 @@ export default ({
   
   return (
     <>
+    <td className={classes}>
+        <Typography variant="small" color="blue-gray" className="font-normal">
+          {id}
+        </Typography>
+      </td>
      <td className={classes}>
         <div className="flex items-center gap-3">
           <Avatar src={image?.path ? toImagePath(image.path) : defaultImage} size="sm" />
@@ -26,7 +33,7 @@ export default ({
               color="blue-gray"
               className="font-normal"
             >
-              {translation.name}
+              {translation?.name}
             </Typography>
             <Typography
               variant="small"
@@ -37,6 +44,16 @@ export default ({
             </Typography>
           </div>
         </div>
+      </td>
+      <td className={classes}>
+        <Typography variant="small" color="blue-gray" className="font-normal">
+          {name}
+        </Typography>
+      </td>
+      <td className={classes}>
+        <Typography variant="small" color="blue-gray" className="font-normal">
+          {slug}
+        </Typography>
       </td>
       <td className={classes}>
         <Typography variant="small" color="blue-gray" className="font-normal">

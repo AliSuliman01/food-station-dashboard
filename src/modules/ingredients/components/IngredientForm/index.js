@@ -3,29 +3,27 @@ import {
   CardHeader,
   CardBody,
   Button,
-  Typography,
 } from "@material-tailwind/react";
 import { useEffect, useReducer } from "react";
 import ingredientFormReducer from "./reducer";
 import actions from "./actions";
-import RestaurantGQL from "../../../../gql/restaurants";
-import IngredientGQL from "../../../../gql/ingredients";
-import { useQuery } from "@apollo/client";
 import TranslationsForm from "../../../../components/form/TranslationsForm";
 import ImagesForm from "../../../../components/form/ImagesForm";
 import UploadAndPreviewImage from "../../../../components/form/UploadAndPreviewImage";
-import InputForm from "../../../../components/form/InputForm";
-import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { refreshContexmenuePreventing } from "../../../../helpers/functions";
+import MultiSelectForm from "../../../../components/form/MultiSelectForm";
+import CategoryGQL from "../../../../gql/category";
+import { useQuery } from "@apollo/client";
 
 const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
   const ingredientFormInitialState = {
     id: null,
     translations: [],
     main_image: {},
+    categories: [],
     images: [],
     deletedImages: [],
+    allCategories: [],
   };
 
   const [formState, formDispatch] = useReducer(
@@ -34,15 +32,32 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
   );
 
   const animatedComponents = makeAnimated();
+  const { data: categoriesData } = useQuery(CategoryGQL.GET_CATEGORIES);
 
   useEffect(() => {
     if (objectToEdit) {
       formDispatch({
         type: actions.LOAD_DATA,
-        data: objectToEdit,
+        data: {
+          ...objectToEdit,
+          categories: objectToEdit.categories.map((category) => ({
+            label: category.translation.name,
+            value: category.id,
+          })),
+        },
       });
     }
   }, [objectToEdit]);
+
+  useEffect(() => {
+    if (categoriesData?.categories) {
+      formDispatch({
+        type: actions.SET_STATE,
+        key: "allCategories",
+        value: categoriesData?.categories,
+      });
+    }
+  }, [categoriesData]);
 
   const handleStateChange = (key, value) => {
     formDispatch({
@@ -81,6 +96,9 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
       deletedImages: formState.deletedImages,
+      categories: formState.categories.map((category) =>
+        parseInt(category.value)
+      ),
     });
   };
 
@@ -92,6 +110,9 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
         ...[formState.main_image].filter(({path}) => path),
         ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
       ],
+      categories: formState.categories.map((category) =>
+        parseInt(category.value)
+      ),
     });
   };
 
@@ -132,6 +153,22 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
               }
             />
             
+            <MultiSelectForm
+              label="Categories"
+              selectComponents={animatedComponents}
+              selectValue={formState.categories}
+              selectOptions={formState.allCategories.map((category) => {
+                return {
+                  label: category.translation.name,
+                  value: category.id,
+                };
+              })}
+              selectOnChange={(selectedCategories) => {
+                handleStateChange("categories", selectedCategories);
+              }}
+            />
+
+
             <Button
               size="lg"
               className="relative h-12 bg-main"

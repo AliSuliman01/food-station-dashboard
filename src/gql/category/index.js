@@ -40,11 +40,10 @@ parent_category {
 
 `;
 const GET_CATEGORIES = gql`
-query GetUsers ($filter:Mixed = "%%")
+query GET_CATEGORIES
     {
     categories(
         orderBy: [{ column: CREATED_AT, order: DESC }]
-        hasTranslation: { OR: [{ column: NAME, operator: LIKE, value: $filter }] }
           ) {
     ${CATEGORY_RESPONSE_FIELDS}
   }

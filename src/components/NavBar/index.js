@@ -97,14 +97,16 @@ const navListMenuItems = [
   {
     color: "orange",
     icon: ChatBubbleOvalLeftIcon,
-    title: "Press",
+    title: "Carts",
     description: "News and writings, press releases, and resources",
+    to: "/carts",
   },
   {
     color: "teal",
     icon: FaceSmileIcon,
-    title: "Icons",
+    title: "Orders",
     description: "Set of beautiful icons that you can use in your project.",
+    to: "/orders",
   },
   {
     color: "pink",

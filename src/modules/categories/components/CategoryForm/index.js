@@ -19,16 +19,15 @@ import ImageSection from "../../../../components/ImageSection";
 import ImagePlaceholderSection from "../../../../components/ImagePlaceholderSection";
 import ImagesForm from "../../../../components/form/ImagesForm";
 import UploadAndPreviewImage from "../../../../components/form/UploadAndPreviewImage";
-import InputForm from "../../../../components/form/InputForm";
-import SelectForm from "../../../../components/form/SelectForm";
-
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useContext } from "react";
 import { categoryContext } from "../CategoryDataTable";
+import InputForm from "../../../../components/form/InputForm";
 const CategoryForm = ({ onCreate, onUpdate, objectToEdit }) => {
   const productFormInitialState = {
     id: null,
+    name:"",
     translations: [],
     parent_category: {},
     main_image: {},
@@ -107,9 +106,10 @@ const CategoryForm = ({ onCreate, onUpdate, objectToEdit }) => {
       ...formState.images.map(({ photo, is_main }) => ({ photo, is_main })),
     ];
 
-    if (formState.main_image.is_main) images.push(formState.main_image);
+    if (formState.main_image?.is_main) images.push(formState.main_image);
 
     onUpdate(objectToEdit.id, {
+      name:formState.name,
       translations: formState.translations,
       parent_category_id: formState?.parent_category?.id,
       images: images,
@@ -126,6 +126,7 @@ const CategoryForm = ({ onCreate, onUpdate, objectToEdit }) => {
     if (formState.main_image.is_main) images.push(formState.main_image);
 
     onCreate({
+      name:formState.name,
       translations: formState.translations,
       parent_category_id: formState?.parent_category.id,
       images: images,
@@ -160,6 +161,14 @@ const CategoryForm = ({ onCreate, onUpdate, objectToEdit }) => {
               images={formState.images}
               onSelectImage={handleSelectImage}
               onContextMenu={handleImageRightClick}
+            />
+
+
+            <InputForm
+              label="Name"
+              inputLabel="Name"
+              value={formState.name}
+              onChange={(e) => handleStateChange("name", e.target.value)}
             />
 
             <TranslationsForm

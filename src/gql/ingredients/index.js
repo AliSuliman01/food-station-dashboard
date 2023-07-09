@@ -23,6 +23,13 @@ const INGREDIENT_RESPONSE_FIELDS = `
     path
     is_main
   }
+  categories {
+    id
+    translation {
+      name
+      language_code
+    }
+  }
 `
 const GET_INGREDIENTS = gql`
 query GET_INGREDIENTS($filter:Mixed = "%%"){

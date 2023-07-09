@@ -40,7 +40,7 @@ const DashboardSettings = () => {
         <div className="mb-4 flex flex-col gap-6">
           <Input
             size="lg"
-            label="Name"
+            label="backend_base_url"
             value={state?.backend_base_url}
             onChange={(e) =>
               handleInputChange("backend_base_url", e.target.value)
@@ -49,7 +49,7 @@ const DashboardSettings = () => {
 
           <Input
             size="lg"
-            label="Name"
+            label="graphql_base_url"
             value={state?.graphql_base_url}
             onChange={(e) =>
               handleInputChange("graphql_base_url", e.target.value)
