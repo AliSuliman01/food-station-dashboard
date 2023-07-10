@@ -15,8 +15,7 @@ import ErrorPage from "./pages/ErrorPage";
 import Ingredients from "./modules/ingredients/pages/Ingredients";
 import Categories from "./modules/categories/pages/Categories";
 import DashboardSettings from "./modules/dashboard/pages/DashboardSettings";
-import Orders from "./modules/orders/pages/Main";
-import Carts from "./modules/carts/pages/Main";
+
 
 const ProtectedRoute = ({ children }) => {
   const user = localStorage.getItem("user");
@@ -47,9 +46,7 @@ const routes = [
       {
         path: "/",
         element: (
-          <ProtectedRoute>
             <Dashboard />
-          </ProtectedRoute>
         ),
         children: [
           {
@@ -90,24 +87,6 @@ const routes = [
         element: (
           <ProtectedRoute>
             <Ingredients />
-          </ProtectedRoute>
-        ),
-      },
-
-      {
-        path: "carts",
-        element: (
-          <ProtectedRoute>
-            <Carts />
-          </ProtectedRoute>
-        ),
-      },
-
-      {
-        path: "orders",
-        element: (
-          <ProtectedRoute>
-            <Orders />
           </ProtectedRoute>
         ),
       },
