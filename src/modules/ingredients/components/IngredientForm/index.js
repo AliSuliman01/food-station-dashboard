@@ -41,7 +41,7 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
         data: {
           ...objectToEdit,
           categories: objectToEdit.categories.map((category) => ({
-            label: category.translation.name,
+            label: category.translation?.name,
             value: category.id,
           })),
         },
@@ -159,7 +159,7 @@ const IngredientForm = ({ onCreate, onUpdate, objectToEdit }) => {
               selectValue={formState.categories}
               selectOptions={formState.allCategories.map((category) => {
                 return {
-                  label: category.translation.name,
+                  label: category.translation?.name,
                   value: category.id,
                 };
               })}
